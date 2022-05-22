@@ -1,0 +1,26 @@
+version: '3.3'
+
+services:
+  gardena:
+    container_name: gardena
+    restart: always
+    image: node:17.8.0
+    user: "node"
+    working_dir: /home/node/app
+    env_file:
+      - environment.env
+    environment:
+      - "GARDENA_PASSWORD=pa$$woRd"
+      - "GARDENA_USERNAME=email@something.com"
+      - "GARDENA_APIKEY=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+      - "MQTT_PORT=8883"
+      - "MQTT_URL=mqtt://pi4"
+      - "MQTT_PUBLISH_TOPIC=gardena"
+      - "MQTT_SECURE=1"
+      - "TLS_SERVER_CERT=/home/cert/server.pem"
+      - "TLS_SERVER_KEY=/home/cert/server.key"
+      - "TLS_CA_CERT=/home/cert/ca.pem"
+    volumes:
+      - ../gardena:/home/node/app
+      - ../cert:/home/cert
+    command: "node examples/console-simple.js"

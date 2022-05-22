@@ -1,0 +1,15 @@
+{
+  "name": "gardena_cloud2mqtt_client",
+  "version": "0.0.1",
+  "description": "Queries your garden for updates and forwards information to a secure mqtt broker.",
+  "main": "",
+  "keywords": [],
+  "author": "Daniel Ströhmann",
+  "license": "ISC",
+  "dependencies": {
+    "mqtt": "^4.3.7",
+    "node-fetch": "^3.2.4",
+    "ws": "^8.6.0"
+  },
+  "type": "module"
+}
