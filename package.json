@@ -1,6 +1,6 @@
 {
   "name": "gardena-api-client",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "description": "Queries the dynamic websocket URL of Gardena Smart Garden API for device status updates",
   "main": "gardena.js",
   "repository": {
@@ -17,7 +17,6 @@
   "author": "Daniel Ströhmann",
   "license": "ISC",
   "dependencies": {
-    "mqtt": "^4.3.7",
     "node-fetch": "^3.2.4",
     "ws": "^8.6.0"
   },
