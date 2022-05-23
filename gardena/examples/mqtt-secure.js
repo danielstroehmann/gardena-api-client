@@ -10,10 +10,10 @@ let mqtt_options = {
     port   : process.env.MQTT_PORT,
     topic  : process.env.MQTT_PUBLISH_TOPIC,
     url    : process.env.MQTT_URL,
-    secure : true
+    secure : (process.env.MQTT_SECURE == 'true')
 }
 
-// configure gardena client: when receiving message on websocket publish to mqtt
+// configure Gardena client: when receiving message on websocket publish to mqtt
 let gardena_options = {
     username : process.env.GARDENA_USERNAME,
     password : process.env.GARDENA_PASSWORD,
