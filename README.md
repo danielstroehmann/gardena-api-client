@@ -35,20 +35,30 @@ const options = { }
 * ```callback``` [function]: Callback function for Gardena device updates
 ### Callback Examples
 ```javascript
+import * as gardena from 'gardena-api-client'
+
+const options = {
+    username: "your.name@provider.com",
+    password: "pa$$w0rd",
+    apikey: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+    log: onLog,
+    callback: onMessage
+}
+
 /**
  * Called when Gardena client generates a log message
  * @param {string} data Log message as string
  */
-function onLog(data) {
-    console.log(data)
-}
+let onLog = (data) => console.log(data)
 
 /**
  * Called when a Gardena device updates a status
  * @param {string} message JSON as plain text.
  */
-function onMessage(message) {
+let onMessage = (message) => {
     let json = JSON.parse(message)
     console.log(JSON.stringify(json))
 }
+
+gardena.connect(options)
 ```
