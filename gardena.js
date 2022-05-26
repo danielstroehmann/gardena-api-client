@@ -48,20 +48,21 @@ let get_token_by_credentials = () => {
             setTimeout(get_token_by_credentials, one_second_in_milliseconds)
         })
         .then(res => {
-            if(res.ok) return res.json()
+            if(res.ok) res.json()
+                .then(json => {
+                    access_token = json.access_token
+                    refresh_token = json.refresh_token
+                    setTimeout(get_token_by_refresh_token, json.expires_in * one_second_in_milliseconds - ten_minutes_in_milliseconds)
+                    log('received new bearer and refresh token')
+                    setTimeout(get_location_id, one_second_in_milliseconds)
+                })
             else {
                 log('auth response error: ' + res.statusText)
                 log('retry using username and password')
                 setTimeout(get_token_by_credentials, one_second_in_milliseconds)
             }
         })
-        .then(res => {
-            access_token = res.access_token
-            refresh_token = res.refresh_token
-            setTimeout(get_token_by_refresh_token, res.expires_in * one_second_in_milliseconds - ten_minutes_in_milliseconds)
-            log('received new bearer and refresh token')
-            setTimeout(get_location_id, one_second_in_milliseconds)
-        })
+
 }
 let get_token_by_refresh_token = () => {
     let body = new URLSearchParams();
@@ -80,19 +81,19 @@ let get_token_by_refresh_token = () => {
         })
         .then(res => {
             if(res.ok) {
-                return res.json()
+                res.json()
+                    .then(json => {
+                        refresh_token = json.refresh_token
+                        access_token = json.access_token
+                        setTimeout(get_token_by_refresh_token, json.expires_in * one_second_in_milliseconds - ten_minutes_in_milliseconds)
+                        log('received new bearer and refresh token')
+                    })
             }
             else {
                 log('auth error: ' + res.statusText)
                 log('will retry with username and password')
                 setTimeout(get_token_by_credentials, one_second_in_milliseconds)
             }
-        })
-        .then(res => {
-            refresh_token = res.refresh_token
-            access_token = res.access_token
-            setTimeout(get_token_by_refresh_token, res.expires_in * one_second_in_milliseconds - ten_minutes_in_milliseconds)
-            log('received new bearer and refresh token')
         })
 }
 let get_location_id = () => {
@@ -111,17 +112,17 @@ let get_location_id = () => {
         })
         .then(res => {
             if(res.ok) {
-                return res.json()
+                res.json()
+                    .then(json => {
+                        location_id = json.data[0].id
+                        log('your location id: ' + location_id)
+                        setTimeout(get_websocket_url, one_second_in_milliseconds)
+                    })
             } else {
                 log('location error: ' + res.statusText)
                 log('retry fetching location id')
                 setTimeout(get_location_id, one_second_in_milliseconds)
             }
-        })
-        .then(res => {
-            location_id = res.data[0].id
-            log('your location id: ' + location_id)
-            setTimeout(get_websocket_url, one_second_in_milliseconds)
         })
 }
 let get_websocket_url = () => {
@@ -149,18 +150,19 @@ let get_websocket_url = () => {
         })
         .then(res => {
             if(res.ok) {
-                return res.json()
+                res.json()
+                    .then(json => {
+                        websocket_url = json.data.attributes.url
+                        log(`new websocket url: ${websocket_url}`)
+                        setTimeout(connect_websocket, one_second_in_milliseconds)
+                    })
             } else {
                 log('websocket url query error: ' + res.statusText)
                 log('retry fetching websocket url')
                 setTimeout(get_websocket_url, one_second_in_milliseconds)
             }
         })
-        .then(res => {
-            websocket_url = res.data.attributes.url
-            log(`new websocket url: ${websocket_url}`)
-            setTimeout(connect_websocket, one_second_in_milliseconds)
-        })
+
 }
 let connect_websocket = () => {
     log(`connecting to gardena websocket on: ${websocket_url}`)
