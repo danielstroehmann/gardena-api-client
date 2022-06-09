@@ -1,6 +1,6 @@
 {
   "name": "gardena-api-client",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Queries the dynamic websocket URL of Gardena Smart Garden API for device status updates",
   "main": "gardena.js",
   "repository": {

@@ -42,11 +42,6 @@ let get_token_by_credentials = () => {
         },
         body: body
     })
-        .catch(err => {
-            log('auth error: ' + err)
-            log('retry using username and password')
-            setTimeout(get_token_by_credentials, one_second_in_milliseconds)
-        })
         .then(res => {
             if(res.ok) res.json()
                 .then(json => {
@@ -62,6 +57,11 @@ let get_token_by_credentials = () => {
                 setTimeout(get_token_by_credentials, one_second_in_milliseconds)
             }
         })
+        .catch(err => {
+            log('auth error: ' + err)
+            log('retry using username and password')
+            setTimeout(get_token_by_credentials, one_second_in_milliseconds)
+        })
 
 }
 let get_token_by_refresh_token = () => {
@@ -74,11 +74,6 @@ let get_token_by_refresh_token = () => {
         method: 'POST',
         body: body
     })
-        .catch(err => {
-            log('auth error: ' + err)
-            log('will retry with username and password')
-            setTimeout(get_token_by_credentials, one_second_in_milliseconds)
-        })
         .then(res => {
             if(res.ok) {
                 res.json()
@@ -95,6 +90,11 @@ let get_token_by_refresh_token = () => {
                 setTimeout(get_token_by_credentials, one_second_in_milliseconds)
             }
         })
+        .catch(err => {
+            log('auth error: ' + err)
+            log('will retry with username and password')
+            setTimeout(get_token_by_credentials, one_second_in_milliseconds)
+        })
 }
 let get_location_id = () => {
     log('fetching location id')
@@ -105,11 +105,6 @@ let get_location_id = () => {
             'X-Api-Key': apikey
         }
     })
-        .catch(err => {
-            log('location error: ' + err)
-            log('retry fetching location id')
-            setTimeout(get_location_id, one_second_in_milliseconds)
-        })
         .then(res => {
             if(res.ok) {
                 res.json()
@@ -123,6 +118,11 @@ let get_location_id = () => {
                 log('retry fetching location id')
                 setTimeout(get_location_id, one_second_in_milliseconds)
             }
+        })
+        .catch(err => {
+            log('location error: ' + err)
+            log('retry fetching location id')
+            setTimeout(get_location_id, one_second_in_milliseconds)
         })
 }
 let get_websocket_url = () => {
@@ -143,11 +143,6 @@ let get_websocket_url = () => {
             }
         })
     })
-        .catch(err => {
-            log('websocket url query error: ' + err)
-            log('retry fetching websocket url')
-            setTimeout(get_websocket_url, one_second_in_milliseconds)
-        })
         .then(res => {
             if(res.ok) {
                 res.json()
@@ -161,6 +156,11 @@ let get_websocket_url = () => {
                 log('retry fetching websocket url')
                 setTimeout(get_websocket_url, one_second_in_milliseconds)
             }
+        })
+        .catch(err => {
+            log('websocket url query error: ' + err)
+            log('retry fetching websocket url')
+            setTimeout(get_websocket_url, one_second_in_milliseconds)
         })
 
 }
